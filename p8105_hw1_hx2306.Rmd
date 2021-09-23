@@ -1,0 +1,125 @@
+---
+title: "p8105_hw1_hx2306"
+author: "HuijunXiao"
+date: "9/21/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+## Problem 1   
+
+* Step 1: Create the dataframe   
+
+```{r}
+# a random sample of size 10 from a standard Normal distribution
+nordist_sam <-
+  rnorm(10)
+
+# a logical vector indicating whether elements of the sample are greater than 0
+sam_greater0 <-
+  nordist_sam >0 
+
+# a character vector of length 10
+chara_10 <-
+  c("a","b","c","d","e","f","g","h","i","j")
+
+# a factor vector of length 10, with 3 different factor “levels”
+fact_10 <-
+  c("good","bad","ok","good","bad","ok","good","bad","ok","good")
+```
+
+```{r}
+# problem 1 data frame
+df_problem1 <-
+  tibble(nordist_sam,sam_greater0,chara_10,fact_10)
+
+df_problem1
+```
+
+* Step 2: Take the mean of each variable in the data frame   
+
+```{r}
+# Mean of nordist_sam
+mean(pull(df_problem1,nordist_sam))
+
+# Mean of sam_greater0
+mean(pull(df_problem1,sam_greater0))
+
+# Mean of chara_10
+mean(pull(df_problem1,chara_10))
+
+# Mean of fact_10
+mean(pull(df_problem1,fact_10))
+
+```
+
+**Only numeric and logical variables are able to take the means.For character and factor variables, taking the mean does not work and will return NA instead. **   
+
+* Step 3: Add `as.numeric` function to logical,character and factor variables   
+
+```{r, results="hide"}
+# add as.numeric to nordist_sam
+as.numeric(pull(df_problem1,nordist_sam))
+
+# add as.numeric to sam_greater0
+as.numeric(pull(df_problem1,sam_greater0))
+
+# add as.numeric to chara_10
+as.numeric(pull(df_problem1,chara_10))
+
+# add as.numeric to fact_10
+as.numeric(pull(df_problem1,fact_10))
+```
+
+**`as.numeric` function can be applied to logical variables successfully.**  
+**However, it cannot be applied to character and factor variables.**  
+**This helps explain what happens when I try to take the mean as factor and character strings are not properly formatted numbers.**   
+**Hence, they cannot be converted to the numeric class and means cannot be calculated as well. **   
+
+## Problem 2   
+
+```{r}
+#Load Penguins dataset 
+data("penguins", package = "palmerpenguins")
+```
+
+* Step 1: Short description of the `penguins` dataset   
+
+```{r}
+# the data in this dataset, including names / values of important variables
+head(penguins)
+```
+**`penguins` dataset contains `r ncol(penguins)` variables, which are species, island, bill length, bill depth, flipper length, body mass, sex and year, and `r nrow(penguins)` rows of observations. **  
+
+**`penguins` dataset included data recorded from `r min(pull(penguins,year), na.rm = T)` to `r max(pull(penguins,year), na.rm = T)`.**  
+
+**For species of this dataset, there are `r length(unique(penguins$species))` categories, which are `r unique(penguins$species)`.** 
+
+**For island of this dataset, there are `r length(unique(penguins$island))` categories, which are `r unique(penguins$island)`.**
+
+**The bill length (mm) starts from `r min(pull(penguins,bill_length_mm), na.rm = T)` to `r max(pull(penguins,bill_length_mm), na.rm = T)` with mean equals to `r mean(pull(penguins,bill_length_mm), na.rm = T)`.**
+
+**The bill depth (mm) starts from `r min(pull(penguins,bill_depth_mm), na.rm = T)` to `r max(pull(penguins,bill_depth_mm), na.rm = T)` with mean equals to `r mean(pull(penguins,bill_depth_mm), na.rm = T)`.** 
+
+**The flipper length (mm) starts from `r min(pull(penguins,flipper_length_mm), na.rm = T)` to `r max(pull(penguins,flipper_length_mm), na.rm = T)` with mean equals to `r mean(pull(penguins,flipper_length_mm), na.rm = T)`.** 
+
+**The body mass (g) starts from `r min(pull(penguins,body_mass_g), na.rm = T)` to `r max(pull(penguins,body_mass_g), na.rm = T)` with mean equals to `r mean(pull(penguins,body_mass_g), na.rm = T)`.** 
+  
+* Step 2: Make a scatterplot of flipper_length_mm (y) vs bill_length_mm (x)
+  
+```{r}
+## make plot
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + 
+  geom_point() +
+  ggtitle("Penguins Flipper Length (mm) vs. Bill Length (mm)") +
+  xlab("Flipper Length (mm)") +
+  ylab("Bill Length (mm)")
+
+## save plot
+ggsave("p8105_hw1_hx2306_scatterplot.jpeg",plot = last_plot())
+```
+
