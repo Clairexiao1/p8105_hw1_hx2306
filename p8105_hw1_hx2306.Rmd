@@ -2,7 +2,7 @@
 title: "p8105_hw1_hx2306"
 author: "HuijunXiao"
 date: "9/21/2021"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -29,7 +29,8 @@ chara_10 <-
 
 # a factor vector of length 10, with 3 different factor “levels”
 fact_10 <-
-  c("good","bad","ok","good","bad","ok","good","bad","ok","good")
+  c("good","bad","ok","good","bad","ok","good","bad","ok","good")%>%
+  as.factor()
 ```
 
 ```{r}
@@ -57,7 +58,7 @@ mean(pull(df_problem1,fact_10))
 
 ```
 
-**Only numeric and logical variables are able to take the means.For character and factor variables, taking the mean does not work and will return NA instead. **   
+__Only numeric and logical variables are able to take the means.For character and factor variables, taking the mean does not work and will return NA instead.__
 
 * Step 3: Add `as.numeric` function to logical,character and factor variables   
 
@@ -78,7 +79,7 @@ as.numeric(pull(df_problem1,fact_10))
 **`as.numeric` function can be applied to logical variables successfully.**  
 **However, it cannot be applied to character and factor variables.**  
 **This helps explain what happens when I try to take the mean as factor and character strings are not properly formatted numbers.**   
-**Hence, they cannot be converted to the numeric class and means cannot be calculated as well. **   
+**Hence, they cannot be converted to the numeric class and means cannot be calculated as well.**   
 
 ## Problem 2   
 
@@ -93,7 +94,7 @@ data("penguins", package = "palmerpenguins")
 # the data in this dataset, including names / values of important variables
 head(penguins)
 ```
-**`penguins` dataset contains `r ncol(penguins)` variables, which are species, island, bill length, bill depth, flipper length, body mass, sex and year, and `r nrow(penguins)` rows of observations. **  
+**`penguins` dataset contains `r ncol(penguins)` variables, which are species, island, bill length, bill depth, flipper length, body mass, sex and year, and `r nrow(penguins)` rows of observations.**  
 
 **`penguins` dataset included data recorded from `r min(pull(penguins,year), na.rm = T)` to `r max(pull(penguins,year), na.rm = T)`.**  
 
@@ -116,8 +117,8 @@ head(penguins)
 ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + 
   geom_point() +
   ggtitle("Penguins Flipper Length (mm) vs. Bill Length (mm)") +
-  xlab("Flipper Length (mm)") +
-  ylab("Bill Length (mm)")
+  ylab("Flipper Length (mm)") +
+  xlab("Bill Length (mm)")
 
 ## save plot
 ggsave("p8105_hw1_hx2306_scatterplot.jpeg",plot = last_plot())
